@@ -73,11 +73,11 @@ terraform init
 3. 계획 생성
 
 ```
-terraform plan -var="key_name=your-key-pair" -var="vpc_id=your-vpc-id" -var="subnet_ids=[\"subnet-12345678\", \"subnet-87654321\"]"
+terraform plan
 ```
 
 4. 인프라 생성
 
 ```
-terraform apply -var="key_name=your-key-pair" -var="vpc_id=your-vpc-id" -var="subnet_ids=[\"subnet-12345678\", \"subnet-87654321\"]"
+terraform apply -auto-approve
 ```
