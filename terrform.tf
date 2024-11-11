@@ -1,74 +1,36 @@
-# providers.tf
 provider "aws" {
-  region = "us-west-2"
+  region  = "${var.region}"
+  profile = "${var.profile}"
 }
 
-# vpc.tf
-resource "aws_vpc" "main_vpc" {
-  cidr_block = "10.0.0.0/16"
-
-  tags = {
-    Name = "main-vpc"
-  }
+# VPC - Production & Staging
+module "vpc" {
+  source              = "./network"
+  cidr                = "10.0.0.0/16"
+  vpc_name            = "${var.vpc_name}"
+  cluster_name        = "${module.eks.cluster-name}"
+  master_subnet_cidr  = ["10.0.48.0/20", "10.0.64.0/20", "10.0.80.0/20"]
+  worker_subnet_cidr  = ["10.0.144.0/20", "10.0.160.0/20", "10.0.176.0/20"]
+  public_subnet_cidr  = ["10.0.204.0/22", "10.0.208.0/22", "10.0.212.0/22"]
+  private_subnet_cidr = ["10.0.228.0/22", "10.0.232.0/22", "10.0.236.0/22"]
 }
 
-resource "aws_subnet" "public_subnet" {
-  vpc_id            = aws_vpc.main_vpc.id
-  cidr_block        = "10.0.1.0/24"
-  map_public_ip_on_launch = true
-
-  tags = {
-    Name = "public-subnet"
-  }
+module "kubernetes-server" {
+  source        = "./kubernetes-server"
+  instance_type = "${var.instance_type}"
+  instance_ami  = "${var.instance-ami}"
+  server-name   = "${var.server-name}"
+  instance_key  = "${var.key}"
+  vpc_id        = "${module.vpc.vpc_id}"
+  k8-subnet     = "${module.vpc.public_subnet[0]}"
 }
 
-# security_groups.tf
-resource "aws_security_group" "web_sg" {
-  vpc_id = aws_vpc.main_vpc.id
-
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "web-sg"
-  }
-}
-
-# ec2.tf
-resource "aws_instance" "web_server" {
-  ami           = "ami-0c55b159cbfafe1f0"  # Amazon Linux 2 AMI (Region-specific)
-  instance_type = "t2.micro"
-  subnet_id     = aws_subnet.public_subnet.id
-  security_groups = [aws_security_group.web_sg.name]
-
-  tags = {
-    Name = "web-server"
-  }
-}
-
-# outputs.tf
-output "instance_ip" {
-  value = aws_instance.web_server.public_ip
-}
-
-output "vpc_id" {
-  value = aws_vpc.main_vpc.id
+module "eks" {
+  source                        = "./cluster"
+  vpc_id                        = "${module.vpc.vpc_id}"
+  cluster-name                  = "${var.cluster-name}"
+  kubernetes-server-instance-sg = "${module.kubernetes-server.kubernetes-server-instance-sg}"
+  eks_subnets                   = ["${module.vpc.master_subnet}"]
+  worker_subnet                 = ["${module.vpc.worker_node_subnet}"]
+  subnet_ids                    = ["${module.vpc.master_subnet}", "${module.vpc.worker_node_subnet}"]
 }
