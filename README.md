@@ -1,7 +1,7 @@
 # Infra_Architecture
 Architect 설계
 
-# 전사 서버 IT Infra 아키텍처 예시
+# 전사 서버 IT Infra 아키텍처
 
 ```
           +------------------------------------------+
