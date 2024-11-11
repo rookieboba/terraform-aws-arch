@@ -61,12 +61,17 @@ Terraform을 사용하여 인프라를 배포하기 위해 다음과 같은 명�
 
 - # 1. Terraform 초기화
 
+```
 terraform init
-
+```
 - # 2. 계획 생성
 
+```
 terraform plan -var="key_name=your-key-pair" -var="vpc_id=your-vpc-id" -var="subnet_ids=[\"subnet-12345678\", \"subnet-87654321\"]"
+```
 
 - # 3. 인프라 생성
 
+```
 terraform apply -var="key_name=your-key-pair" -var="vpc_id=your-vpc-id" -var="subnet_ids=[\"subnet-12345678\", \"subnet-87654321\"]"
+```
