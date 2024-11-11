@@ -52,9 +52,9 @@ resource "aws_db_instance" "my_db" {
   engine               = "mysql"
   engine_version       = "5.7"
   instance_class       = var.db_instance_type
-  name                 = "mydatabase"
+  name                 = "sugnbin"
   username             = "admin"
-  password             = "password"  # 실제로는 Terraform Vault나 다른 보안 방법 사용 권장
+  password             = "sungbin"  
   parameter_group_name = "default.mysql5.7"
   multi_az             = false  # 무료 티어에서 단일 AZ만 지원
   skip_final_snapshot  = true
