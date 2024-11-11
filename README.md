@@ -60,18 +60,23 @@ Architect 설계
 # Terraform 사용
 - 인프라를 배포하기 위해 다음과 같은 명령어를 단계적으로 사용하면 됩니다.
 
-1. Terraform 초기화
+1. terraform.tfvars 파일 생성
+```
+bash create_tfvars.sh  
+```
+
+2. Terraform 초기화
 
 ```
 terraform init
 ```
-2. 계획 생성
+3. 계획 생성
 
 ```
 terraform plan -var="key_name=your-key-pair" -var="vpc_id=your-vpc-id" -var="subnet_ids=[\"subnet-12345678\", \"subnet-87654321\"]"
 ```
 
-3. 인프라 생성
+4. 인프라 생성
 
 ```
 terraform apply -var="key_name=your-key-pair" -var="vpc_id=your-vpc-id" -var="subnet_ids=[\"subnet-12345678\", \"subnet-87654321\"]"
