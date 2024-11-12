@@ -1,7 +1,5 @@
 # Infra_Architecture
-Architect 설계
-
-# 전사 서버 IT Infra 아키텍처
+Architect 아래와 같이 설계
 
 ```
           +------------------------------------------+
