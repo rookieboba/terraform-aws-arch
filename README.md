@@ -1,5 +1,11 @@
 - 리전: ap-northeast-2 (서울 리전)
 - VPC 이름: main-vpc
+- EBS
+  - name: my-ebs-volume
+  - size: 50GB / gp2
+- RDS
+  - name: my-rds-instance
+  - db.t3.micro
 - 사용된 보안 그룹:
   - 웹 서버 보안 그룹: web-sg
   - 데이터베이스 보안 그룹: db-sg
