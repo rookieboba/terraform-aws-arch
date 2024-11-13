@@ -63,6 +63,11 @@
 
 Terraform 명령어 사용 방법
 
+0. terraform.tfvars 파일 생성
+```
+bash create_tfvars.sh  
+```
+
 1. 환경 초기화
 ```
 terraform init
