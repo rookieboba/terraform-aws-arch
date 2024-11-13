@@ -1,9 +1,9 @@
-리전: ap-northeast-2 (서울 리전)
-VPC 이름: main-vpc
-사용된 보안 그룹:
+- 리전: ap-northeast-2 (서울 리전)
+- VPC 이름: main-vpc
+- 사용된 보안 그룹:
   - 웹 서버 보안 그룹: web-sg
   - 데이터베이스 보안 그룹: db-sg
-사용된 IAM:
+- 사용된 IAM:
   - EC2 인스턴스 프로파일 및 역할: WebInstanceProfile
   - Auto Scaling을 위한 권한 설정 포함
 
