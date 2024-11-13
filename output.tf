@@ -1,14 +1,29 @@
-output "alb_dns_name" {
-  description = "로드 밸런서의 DNS 이름"
-  value       = aws_lb.my_alb.dns_name
+output "vpc_id" {
+  value       = aws_vpc.main.id
+  description = "The ID of the VPC"
 }
 
-output "web_server_ips" {
-  description = "웹 서버의 공인 IP 주소"
-  value       = aws_instance.web_server[*].public_ip
+output "public_subnets" {
+  value       = aws_subnet.public[*].id
+  description = "The public subnets in the VPC"
 }
 
-output "db_endpoint" {
-  description = "RDS 인스턴스의 엔드포인트"
-  value       = aws_db_instance.my_db.endpoint
+output "private_subnets" {
+  value       = aws_subnet.private[*].id
+  description = "The private subnets in the VPC"
+}
+
+output "rds_endpoint" {
+  value       = aws_db_instance.main.endpoint
+  description = "The endpoint of the RDS instance"
+}
+
+output "autoscaling_group_name" {
+  value       = aws_autoscaling_group.web_asg.name
+  description = "The name of the Auto Scaling Group"
+}
+
+output "key_pair_name" {
+  value       = aws_key_pair.main.key_name
+  description = "The name of the key pair used for EC2 instances"
 }
