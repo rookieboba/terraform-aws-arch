@@ -3,6 +3,9 @@
 # 필요한 패키지 설치
 yum install -y unzip curl
 
+# 기존 설치된 Terraform을 제거
+sudo rm -f /usr/local/bin/terraform
+
 # HashiCorp에서 최신 Terraform 버전 가져오기
 LATEST_VERSION=$(curl -s https://releases.hashicorp.com/terraform/ | grep -oP 'terraform/\K[0-9]+\.[0-9]+\.[0-9]+' | head -1)
 
